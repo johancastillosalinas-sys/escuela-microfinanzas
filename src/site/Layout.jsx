@@ -1,0 +1,39 @@
+import {useState,useEffect} from 'react'
+import {NavLink,Link,Outlet,useLocation,useNavigate} from 'react-router-dom'
+import ErrorBoundary from '../components/ErrorBoundary.jsx'
+import {Menu,X,Moon,Sun,ArrowRight,GraduationCap,MessageCircle,Facebook,Linkedin,Instagram,Mail,Phone,MapPin} from 'lucide-react'
+import {SiteCtx} from './ctx.jsx'
+import {programs} from '../data.js'
+export const nav=[['Inicio','/'],['Programas','/programas'],['Sobre Nosotros','/nosotros'],['Admisiones','/admisiones'],['Blog','/blog'],['Contáctanos','/contactanos']]
+const aula=()=>window.open('/aula','_blank','noopener')
+const Logo=({light})=><Link to="/" className="flex items-center gap-3" aria-label="Inicio"><img src="/logo-esm.png" alt="" className="h-11 w-11 rounded-lg bg-white object-contain p-0.5"/><span className={`text-[13px] font-bold leading-tight ${light?'text-white':'text-navy dark:text-white'}`}>Escuela Superior<br/><span className="text-brand">de Microfinanzas</span></span></Link>
+
+function Header({dark,setDark,enroll}){const [m,setM]=useState(false);const [bar,setBar]=useState(true);const [sc,setSc]=useState(false);const {pathname}=useLocation()
+useEffect(()=>{setM(false)},[pathname]);useEffect(()=>{const f=()=>setSc(window.scrollY>8);f();window.addEventListener('scroll',f,{passive:true});return()=>window.removeEventListener('scroll',f)},[])
+return <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur-lg transition-shadow dark:bg-[#050816]/95 ${sc?'shadow-[0_10px_30px_-15px_rgba(18,35,90,.3)]':'border-b border-slate-100 dark:border-white/10'}`}>
+{bar&&<div className="relative bg-navy py-2.5 text-center text-xs text-white"><span className="px-10">Inscripciones abiertas · <Link to="/admisiones" className="font-bold text-cyan-300 underline-offset-4 hover:underline">Conoce el proceso de admisión</Link></span><button onClick={()=>setBar(false)} aria-label="Cerrar aviso" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white"><X size={14}/></button></div>}
+<div className="wrap flex h-20 items-center justify-between gap-6"><div className="lg:flex-1"><Logo/></div>
+<nav className="hidden items-center gap-10 lg:flex">{nav.map(([t,h])=><NavLink key={h} to={h} end={h==='/'} className={({isActive})=>`group relative py-2 text-[15px] font-semibold transition-colors hover:text-brand ${isActive?'text-brand':'text-navy dark:text-slate-200'}`}>{({isActive})=><>{t}<span className={`absolute -bottom-0.5 left-0 h-0.5 w-full origin-left rounded bg-brand transition-transform duration-300 ${isActive?'scale-x-100':'scale-x-0 group-hover:scale-x-100'}`}/></>}</NavLink>)}</nav>
+<div className="flex items-center justify-end gap-3 lg:flex-1"><button onClick={aula} className="hidden items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-navy transition hover:border-brand hover:text-brand xl:inline-flex dark:border-white/20 dark:text-white"><GraduationCap size={16}/>Aula Virtual</button>
+<button onClick={()=>setDark(!dark)} aria-label="Cambiar tema" className="rounded-full p-2.5 text-navy transition hover:bg-slate-100 dark:text-white dark:hover:bg-white/10">{dark?<Sun size={18}/>:<Moon size={18}/>}</button>
+<button onClick={()=>enroll()} className="btn hidden !px-6 !py-2.5 sm:inline-flex">¡Inscríbete Ahora! <ArrowRight size={16}/></button>
+<button className="rounded-full p-2.5 lg:hidden" onClick={()=>setM(!m)} aria-label="Menú">{m?<X/>:<Menu/>}</button></div></div>
+{m&&<nav className="wrap flex flex-col border-t border-slate-100 pb-6 pt-2 lg:hidden dark:border-white/10">{nav.map(([t,h])=><NavLink key={h} to={h} end={h==='/'} className={({isActive})=>`border-b border-slate-100 py-4 font-semibold dark:border-white/10 ${isActive?'text-brand':'text-navy dark:text-white'}`}>{t}</NavLink>)}<div className="mt-5 flex flex-col gap-3"><button onClick={()=>{setM(false);enroll()}} className="btn">¡Inscríbete Ahora!</button><button onClick={aula} className="btn2"><GraduationCap size={16}/>Aula Virtual</button></div></nav>}</header>}
+
+function Footer(){return <footer className="bg-[#050816] pt-20 text-sm text-slate-400"><div className="wrap grid gap-12 pb-16 md:grid-cols-2 lg:grid-cols-4"><div><Logo light/><p className="mt-6 max-w-xs leading-7">Formando líderes para el desarrollo económico, empresarial y social del Perú.</p><div className="mt-6 flex gap-3">{[Facebook,Linkedin,Instagram].map((I,i)=><a key={i} href="#" aria-label="Red social" className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 transition hover:border-brand hover:text-brand"><I size={16}/></a>)}</div></div>
+<div><b className="mb-5 block text-white">Navegación</b><ul className="space-y-3">{nav.map(([t,h])=><li key={h}><Link to={h} className="transition hover:text-brand">{t}</Link></li>)}</ul></div>
+<div><b className="mb-5 block text-white">Programas</b><ul className="space-y-3">{programs.slice(0,5).map(p=><li key={p.t}><Link to="/programas" className="transition hover:text-brand">{p.t}</Link></li>)}</ul></div>
+<div><b className="mb-5 block text-white">Mantente informado</b><p className="mb-4 leading-7">Suscríbete para recibir noticias, novedades y próximos eventos de ESM.</p><div className="flex overflow-hidden rounded-xl border border-white/10 bg-white/5"><input className="w-full bg-transparent px-4 py-3 outline-none" placeholder="Tu correo electrónico"/><button className="bg-brand px-4 text-white" aria-label="Suscribirme"><ArrowRight size={16}/></button></div></div></div>
+<div className="border-t border-white/10"><div className="wrap flex flex-col justify-between gap-4 py-8 text-xs md:flex-row"><span>© 2026 Escuela Superior de Microfinanzas. Todos los derechos reservados.</span><span className="flex gap-6"><a href="#">Política de privacidad</a><a href="#">Términos y condiciones</a><Link to="/admisiones">Preguntas frecuentes</Link></span></div></div></footer>}
+
+function Modal({m,close,enroll}){if(!m)return null;const p=m.p
+return <div className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/60 p-4 backdrop-blur-sm" onClick={close}><div className="max-h-[90vh] w-full max-w-xl overflow-auto rounded-3xl bg-white p-8 shadow-2xl md:p-10 dark:bg-slate-900" onClick={e=>e.stopPropagation()}>
+<div className="mb-6 flex items-start justify-between gap-4"><h3 className="text-2xl font-bold text-navy dark:text-white">{p&&m.type==='detail'?p.t:'Pre-inscripción'}</h3><button onClick={close} aria-label="Cerrar"><X/></button></div>
+{m.type==='detail'?<><p className="mb-6">{p.d}</p><div className="mb-8 grid grid-cols-2 gap-3 text-sm">{[['Categoría',p.cat],['Modalidad',p.mod],['Nivel',p.lvl],['Duración',p.dur]].map(([a,b])=><div key={a} className="rounded-xl bg-sky-50 p-4 dark:bg-white/5"><span className="block text-xs">{a}</span><b className="text-navy dark:text-white">{b}</b></div>)}</div><button onClick={()=>enroll(p)} className="btn w-full">Inscribirme en este programa</button></>:null}</div></div>}
+
+export default function Layout(){const [dark,setDark]=useState(false);const [modal,setModal]=useState(null);const {pathname}=useLocation()
+useEffect(()=>{document.documentElement.classList.toggle('dark',dark)},[dark]);useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'auto'})},[pathname])
+const go=useNavigate();const enroll=p=>{setModal(null);go('/inscripcion'+(p?.t?`?programa=${encodeURIComponent(p.t)}`:''))},detail=p=>setModal({type:'detail',p})
+return <SiteCtx.Provider value={{enroll,detail}}><Header dark={dark} setDark={setDark} enroll={enroll}/><main><ErrorBoundary key={pathname}><Outlet/></ErrorBoundary></main><Footer/>
+<a href="https://wa.me/51000000000" target="_blank" rel="noreferrer" aria-label="WhatsApp" className="fixed bottom-6 right-6 z-50 rounded-full bg-green-500 p-4 text-white shadow-xl transition hover:scale-110"><MessageCircle/></a>
+<Modal m={modal} close={()=>setModal(null)} enroll={enroll}/></SiteCtx.Provider>}

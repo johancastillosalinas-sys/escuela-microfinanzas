@@ -1,0 +1,18 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+html{scroll-behavior:smooth}
+body{@apply bg-white font-sans text-[15px] leading-relaxed text-slate-600 antialiased dark:bg-[#050816] dark:text-slate-400}
+[id]{scroll-margin-top:84px}
+@layer components{
+.wrap{@apply mx-auto max-w-7xl px-6 lg:px-10}
+.sec{@apply py-24 md:py-32}
+.alt{@apply bg-sky-50/70 dark:bg-white/[0.03]}
+.card{@apply rounded-2xl border border-slate-200/70 bg-white p-8 shadow-[0_12px_40px_-18px_rgba(18,35,90,.18)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_-18px_rgba(18,35,90,.28)] dark:border-white/10 dark:bg-white/5}
+.ico{@apply flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-brand dark:bg-white/10}
+.btn{@apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 text-sm font-semibold text-white shadow-[0_10px_25px_-8px_rgba(14,165,224,.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan2}
+.btn2{@apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 text-sm font-semibold text-navy transition-all duration-300 hover:border-brand hover:text-brand dark:border-white/20 dark:bg-transparent dark:text-white}
+.h2{@apply text-4xl font-extrabold leading-[1.1] tracking-tight text-navy md:text-5xl dark:text-white}
+.eyebrow{@apply mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[.18em] text-brand before:h-[2px] before:w-8 before:bg-brand before:content-['']}
+.input{@apply w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-700 outline-none transition focus:border-brand focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white}
+.lbl{@apply mb-2 block text-sm font-semibold text-navy dark:text-white}
+}
+@media print{body *{visibility:hidden}.print-area,.print-area *{visibility:visible}.print-area{position:absolute;left:0;top:0;width:100%}}

@@ -1,0 +1,14 @@
+import {useState} from 'react'
+import {Mail,Phone,MapPin,MessageCircle,ArrowRight} from 'lucide-react'
+import {programs} from '../../data.js'
+import {PageHeader,Eyebrow} from '../ui.jsx'
+export default function Contacto(){const [ok,setOk]=useState(false)
+const info=[[Mail,'Correo electrónico','Correo oficial próximamente'],[Phone,'Teléfono','Número oficial próximamente'],[MapPin,'Ubicación','Perú']]
+return <><PageHeader title="Estamos aquí para" hl="ayudarte" sub="¿Quieres conocer nuestros programas, resolver alguna duda o recibir orientación sobre el proceso de admisión? Escríbenos."/>
+<section className="sec"><div className="wrap grid gap-14 lg:grid-cols-5"><div className="lg:col-span-2"><Eyebrow>Información de contacto</Eyebrow><h2 className="h2 mb-10">Hablemos</h2><div className="space-y-5">{info.map(([I,t,d])=><div key={t} className="card flex items-center gap-5 !p-6"><span className="ico shrink-0"><I size={20}/></span><div><b className="block text-navy dark:text-white">{t}</b><span className="text-sm">{d}</span></div></div>)}
+<div className="flex items-center gap-5 rounded-2xl bg-navy p-6 text-white"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan2"><MessageCircle size={20}/></span><div><b className="block">Horario de atención</b><span className="text-sm text-slate-300">Lunes a viernes, 9:00 a 18:00</span></div></div></div></div>
+<form onSubmit={e=>{e.preventDefault();setOk(true)}} className="card !p-10 hover:!translate-y-0 lg:col-span-3"><h3 className="mb-2 text-2xl font-bold text-navy dark:text-white">Envíanos un mensaje</h3><p className="mb-8 text-sm">Completa tus datos y podremos contactarte.</p>
+<div className="grid gap-6 sm:grid-cols-2"><div><label className="lbl">Nombre</label><input required className="input" placeholder="Tu nombre"/></div><div><label className="lbl">Correo electrónico</label><input required type="email" className="input" placeholder="tu@email.com"/></div></div>
+<div className="mt-6 grid gap-6 sm:grid-cols-2"><div><label className="lbl">Teléfono</label><input className="input" placeholder="Tu teléfono"/></div><div><label className="lbl">Programa de interés</label><select className="input"><option>Selecciona una opción</option>{programs.map(p=><option key={p.t}>{p.t}</option>)}</select></div></div>
+<div className="mt-6"><label className="lbl">Mensaje</label><textarea required className="input h-36 resize-none" placeholder="Escribe tu mensaje…"/></div><button className="btn mt-8">Enviar mensaje <ArrowRight size={16}/></button>
+<p className="mt-5 text-xs">{ok?'Gracias. Este formulario es una demostración; el envío real se implementará posteriormente.':'Este formulario es actualmente una interfaz de demostración. La conexión para enviar mensajes se implementará posteriormente.'}</p></form></div></section></>}
